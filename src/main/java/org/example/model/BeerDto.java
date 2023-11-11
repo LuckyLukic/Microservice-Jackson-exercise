@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,25 +16,30 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public class BeerDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class BeerDto {
 
-        @Null
-        private UUID id;
 
-        @NotBlank
-        private String beerName;
+    @JsonProperty("beerId") //it would override Jackson @JsonFormat eventually
+    @Null
+    private UUID id;
 
-        @NotBlank
-        private String beerStyle;
+    @NotBlank
+    private String beerName;
 
-        @Positive
-        private Long upc;
+    @NotBlank
+    private String beerStyle;
 
-        private BigDecimal price;
-        private OffsetDateTime createdDate;
-        private OffsetDateTime lastUpdatedDate;
-    }
+    @Positive
+    private Long upc;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING) // we treat it as string property
+    private BigDecimal price;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    private OffsetDateTime createdDate;
+    private OffsetDateTime lastUpdatedDate;
+}
 
